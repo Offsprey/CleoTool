@@ -1,0 +1,16 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CleoTool.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="DiscordUserMapping" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}</Value>
+    </Setting>
+    <Setting Name="GoogleSheetsPaste" Type="System.String" Scope="User">
+      <Value Profile="(Default)">&lt;html&gt;
+&lt;body&gt;
+&lt;!--StartFragment--&gt;&lt;google-sheets-html-origin&gt;&lt;style type="text/css"&gt;&lt;!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}--&gt;&lt;/style&gt;&lt;table xmlns="http://www.w3.org/1999/xhtml" cellspacing="0" cellpadding="0" dir="ltr" border="1" style="table-layout:fixed;font-size:10pt;font-family:Arial;width:0px;border-collapse:collapse;border:none"&gt;&lt;colgroup&gt;&lt;col width="100"/&gt;&lt;/colgroup&gt;&lt;tbody&gt;&lt;tr style="height:21px;"&gt;&lt;td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;" data-sheets-value="{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Test1&amp;quot;}"&gt;Test1&lt;/td&gt;&lt;/tr&gt;&lt;tr style="height:21px;"&gt;&lt;td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;color:#ff0000;" data-sheets-value="{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Test2&amp;quot;}"&gt;Test2&lt;/td&gt;&lt;/tr&gt;&lt;tr style="height:21px;"&gt;&lt;td style="overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;font-weight:bold;" data-sheets-value="{&amp;quot;1&amp;quot;:2,&amp;quot;2&amp;quot;:&amp;quot;Test3&amp;quot;}"&gt;Test3&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;!--EndFragment--&gt;
+&lt;/body&gt;
+&lt;/html&gt;</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>
