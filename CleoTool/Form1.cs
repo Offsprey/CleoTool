@@ -37,7 +37,7 @@ namespace CleoTool
             lootListconfig = new CleoLootListConfig();
             List<String> players = new List<string>();
 
-            //prep lua data
+            //parse lua data
             try 
             {
                 
@@ -63,6 +63,7 @@ namespace CleoTool
                 treeView1.Nodes.Add(root);
             }
 
+            //build list data
             try
             {
                 cl.buildPlayerList(CConfig.findElement("Cleo_DB>global>cache>player>", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>634442A9-6586-D664-5DB7-DEA8147C6E33>alts", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>63446602-2A74-DAD4-6934-BE542E7DBA8E>players", cParent));
@@ -75,12 +76,11 @@ namespace CleoTool
                 foreach (CElement llConfig in lootListconfig.LootListsConfig)
                 {
                     comboBox1.Items.Add(llConfig.findAtt("name"));
-
                 }
             }
-            catch
+            catch (Exception ex)
             {
-
+                comboBox1.Items.Add(ex.Message);
             }
         }
 
@@ -307,12 +307,12 @@ namespace CleoTool
                                 int t2 = 0;
                             }
                             cParseObj4(atParse, parent);
+                            //advance parser
                             doc = doc.Substring(endQu + 1);
                             cIndex = -1;
                         }
                         else
                         {
-
                             String aInner = doc.Remove(cIndex);
                             cParseObj4(aInner, parent);
                             //advance parser
@@ -406,6 +406,8 @@ namespace CleoTool
 
         private void button2_Click(object sender, EventArgs e)
         {
+            textBox2.Text = "";
+            listView1.Items.Clear();
             String RHdata = "";
             bool wcError = false;
             System.Net.WebClient wc = new System.Net.WebClient();
@@ -514,7 +516,7 @@ namespace CleoTool
             RHdate = RHdateFix[1] + "-" + RHdateFix[0] + "-" + RHdateFix[2];
             String oFileName = "RHroster-" + RHdate + ".html";
 
-            System.IO.File.WriteAllText("C:\\Users\\16187\\Documents\\" + oFileName, rosterHtml);
+            System.IO.File.WriteAllText("C:\\Users\\offsp\\Documents\\" + oFileName, rosterHtml);
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
