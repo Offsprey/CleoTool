@@ -17,6 +17,18 @@ namespace CleoTool
 {
     public partial class Form1 : Form
     {
+        static string DK_COLOR = "#C41E3A";
+        static string DRUID_COLOR = "#FF7C0A";
+        static string HUNTER_COLOR = "#AAD372";
+        static string MAGE_COLOR = "#69CCF0";
+        static string PALY_COLOR = "#F48CBA";
+        static string PRIEST_COLOR = "#FFFFFF";
+        static string ROGUE_COLOR = "#FFF468";
+        static string SHAMAN_COLOR = "#2459FF";
+        static string WARLOCK_COLOR = "#9482C9";
+        static string WARRIOR_COLOR = "#C69B6D";
+
+
         CElement cParent;
         CleoLootListConfig lootListconfig = new CleoLootListConfig();
         CleoLists cl = new CleoLists();
@@ -27,10 +39,15 @@ namespace CleoTool
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            initConfig();
         }
 
         private void button1_Click(object sender, EventArgs e)
+        {
+            initConfig();
+        }
+
+        private void initConfig()
         {
             cParent = new CElement("Root");
             cl = new CleoLists();
@@ -38,10 +55,9 @@ namespace CleoTool
             List<String> players = new List<string>();
 
             //parse lua data
-            try 
+            try
             {
-                
-                    String rawTxt = System.IO.File.ReadAllText("C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua");
+                String rawTxt = System.IO.File.ReadAllText("C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua");
                 //String rawTxt = System.IO.File.ReadAllText("C:\\Users\\16187\\Documents\\Cleo.lua");
                 rawTxt = rawTxt.Replace("\n", "");
                 rawTxt = rawTxt.Replace("\r", "");
@@ -53,7 +69,6 @@ namespace CleoTool
                 buildTreeNodes(root, cParent);
                 treeView1.Nodes.Clear();
                 treeView1.Nodes.Add(root);
-
             }
             catch (Exception ex)
             {
@@ -70,8 +85,6 @@ namespace CleoTool
 
                 lootListconfig.LootListsConfig = CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>", cParent).children.ToArray();
                 lootListconfig.LootLists = CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>", cParent).children.ToArray();
-                //Root>Cleo_Lists>factionrealm>Alliance - Atiesh>lists
-                //CElement[] lootListconfig = listconfig.children.ToArray();
                 comboBox1.Items.Clear();
                 foreach (CElement llConfig in lootListconfig.LootListsConfig)
                 {
@@ -117,7 +130,6 @@ namespace CleoTool
                     return;
                 cIndex++;
             }
-
         }
 
         private string cParse2(String doc, CElement parent)
@@ -238,9 +250,7 @@ namespace CleoTool
                         doc = doc.Substring(doc.IndexOf(',') + 1);                        
                         cIndex = -1;
                     }
-
                 }
-
                 cIndex++;
             }
             return "";
@@ -265,10 +275,7 @@ namespace CleoTool
                         String[] text = nameStr.Split('=');
                         char[] trimChars = new char[] { ' ', '}', '{', ',', '[', ']', '"' };
                         name = text[text.Length - 2].Trim(trimChars);
-                        if (name == "6344681C-FBDF-9994-D19D-EF54F23CAA03")
-                        {
-                            int t5 = 0;
-                        }
+                        
                     }
 
                     CElement nEle = new CElement(name);
@@ -302,10 +309,7 @@ namespace CleoTool
                             //innerQu = innerQu.Remove(innerQu.IndexOf('"'));
                             
                             String atParse = doc.Remove(endQu);
-                            if (atParse.Contains("}"))
-                            {
-                                int t2 = 0;
-                            }
+                            
                             cParseObj4(atParse, parent);
                             //advance parser
                             doc = doc.Substring(endQu + 1);
@@ -318,8 +322,6 @@ namespace CleoTool
                             //advance parser
                             doc = doc.Substring(doc.IndexOf(',') + 1);
                             cIndex = -1;
-
-
                         }
                     }
                     //if attribute is list item
@@ -337,8 +339,7 @@ namespace CleoTool
         }
 
         private void cParseObj(String doc, CElement obj)
-        {
-            
+        {            
             String[] attArray = doc.Split(',');
             foreach(String at in attArray)
             {
@@ -355,21 +356,14 @@ namespace CleoTool
                 {
                     String[] sep = atVal.Split('=');
                     obj.addAttribute(sep);
-                    int t = 0;
                 }                
             }
         }
 
         private void cParseObj4(String doc, CElement obj)
-        {
-            
+        {            
             String at = doc;
-            if (at.Contains("}"))
-            {
-                int t2 = 0;
-            }
             
-
             char[] trimChars = new char[] { ' ', '}', '{', ',', '[', ']', '"' };
             String atVal = at.Trim(' ');
             //remove commenting
@@ -431,6 +425,12 @@ namespace CleoTool
                 //cl.buildPlayerList(CConfig.findElement("Cleo_DB>global>cache>player>", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>634442A9-6586-D664-5DB7-DEA8147C6E33>alts", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>63446602-2A74-DAD4-6934-BE542E7DBA8E>players", cParent));
                 cl.buildRHData(RHdata);
 
+                String unixUpdate = RHdata.Substring(RHdata.IndexOf("last_updated") + 14);
+                unixUpdate = unixUpdate.Remove(unixUpdate.IndexOf(","));
+                Double lastUpdate = Double.Parse(unixUpdate);
+                System.DateTime updateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                updateTime = updateTime.AddMilliseconds(lastUpdate).ToLocalTime();
+
                 foreach (CPlayer cPlayer in cl.player)
                 {                    
                     String altStr = "";
@@ -438,6 +438,8 @@ namespace CleoTool
                     {
                         altStr += cPlayer.toons[i][1] + ",";
                     }
+                    if (altStr == "")
+                        altStr= "NONE";
 
                     String[] lviAttributes = new string[] { cPlayer.toons[0][1].Split('-')[0], cPlayer.RLrole, cPlayer.RLstatus1, altStr.Trim(',') };
                     ListViewItem nItem = new ListViewItem(lviAttributes);
@@ -456,6 +458,8 @@ namespace CleoTool
                     listView1.Items.Add(nItem);
                 }
                 textBox2.Text = cl.RHmsg;
+                textBox2.Text += "Last Updated : " + updateTime + " - Date Pulled : " + DateTime.Now.ToLocalTime() + "ST";
+                button3.Enabled = true;
             }           
         }
 
@@ -510,6 +514,7 @@ namespace CleoTool
                 rosterHtml += cellStartRed + "RH - Not in Cleo" + cellEnd;
                 rosterHtml += "</tr>";
             }
+            rosterHtml += "<tr><td>" + textBox2.Lines.Last<string>() + "</td></tr>";
             rosterHtml += htmlEnd;
             String RHdate = textBox2.Lines[1];
             String[] RHdateFix = RHdate.Split('-');
@@ -544,6 +549,8 @@ namespace CleoTool
             {
                 comboBox2.Items.Add(lootListconfig.getllName(loot.ToString()));
             }
+
+            button4.Enabled = true;
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -561,6 +568,130 @@ namespace CleoTool
                 listView2.Items.Add(lItem);
             }
 
+        }
+
+        private void listView2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //build list table
+            int ilist = 0;            
+            String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), (String)comboBox2.Items[0]);
+            CElement ll = lootListconfig.getlootList(llconfigId);
+            CElement llPlayers = CConfig.findElement("players", ll);
+            String[,] lists = new string[comboBox2.Items.Count, llPlayers.att.Count];
+            int playerCount = llPlayers.att.Count;
+            int listCount = comboBox2.Items.Count;
+
+            foreach (String list in comboBox2.Items)
+            {
+                llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), list);
+                ll = lootListconfig.getlootList(llconfigId);
+                llPlayers = CConfig.findElement("players", ll);
+
+                int iplayer = 0;
+                foreach (String[] player in llPlayers.att)
+                {
+                    String toonName = cl.findToonName(player[1]);
+                    String toonClass = cl.findToonClass(player[1]);
+                    String row = "<td style=color:";
+                    switch(toonClass)
+                    {
+                        case "DEATHKNIGHT":
+                            row += DK_COLOR;
+                            break;
+                        case "DRUID":
+                            row += DRUID_COLOR;
+                            break;
+                        case "HUNTER":
+                            row += HUNTER_COLOR;
+                            break;
+                        case "MAGE":
+                            row += MAGE_COLOR;
+                            break;
+                        case "PALADIN":
+                            row += PALY_COLOR;
+                            break;
+                        case "PRIEST":
+                            row += PRIEST_COLOR;
+                            break;
+                        case "ROGUE":
+                            row += ROGUE_COLOR;
+                            break;
+                        case "SHAMAN":
+                            row += SHAMAN_COLOR;
+                            break;
+                        case "WARLOCK":
+                            row += WARLOCK_COLOR;
+                            break;
+                        case "WARRIOR":
+                            row += WARRIOR_COLOR;
+                            break;
+                        default:
+                            row += "#ff33cc";
+                            break;
+
+
+                    }
+                    row += ";>";
+
+                    ListViewItem lItem = new ListViewItem(new string[] { player[0], toonName });
+                    lists[ilist, iplayer] = row + toonName.Split('-')[0] + "</td>";
+                    iplayer++;
+                }
+                ilist++;
+            }
+
+            //build HTML table
+            //#6a6a6a
+            //light theme
+            //String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #D6EEEE;}body{font-family: Arial, Helvetica, sans-serif;}tr {border-bottom: 2px solid #6a6a6a;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;font-style:bold;}table {border-collapse: collapse;}</style>";
+            //dark theme
+            String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #666666;}body{font-family: Arial, Helvetica, sans-serif;background-color:#4d4d4d; color:#d9d9d9;}tr {border-bottom: 1px solid #d9d9d9;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;}table {border-collapse: collapse;color:#d9d9d9;font-weight:bold;}</style>";
+            String htmlStart = "<html><head>" + htmlStyle + "</head><body><!--StartFragment--><table>";
+            String tHead = "<thead><tr><th>Priority</th>";
+            foreach (String list in comboBox2.Items)
+            {
+                tHead += "<th>" + list + "</th>";
+            }
+            tHead += "</tr></thead>";
+            String cellStart = "<td>";
+            String cellEnd = "</td>";
+            String htmlEnd = "<!--EndFragment-->\r\n</body>\r\n</html>";
+            
+            String rosterHtml = htmlStart + tHead + "<tbody>"; 
+
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                String row = "<tr>" + cellStart + (i + 1).ToString() + cellEnd;
+                for (int o = 0; o < listCount; o++)
+                {
+                    //row += "<td>" + lists[o, i] + "</td>";
+                    row += lists[o, i];
+                }
+                row += "</tr>";
+                rosterHtml += row;
+
+            }
+            rosterHtml += "</tbody></table>";
+            rosterHtml += "<div>" + comboBox1.Text + " - " + DateTime.Now + "</div>";
+            rosterHtml += htmlEnd;
+
+            String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
+            String oFileName = "Cleo-" + comboBox1.Text + "-" + cleoDate + ".html";
+
+            System.IO.File.WriteAllText("C:\\Users\\offsp\\Documents\\" + oFileName, rosterHtml);
+            
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            if (textBox1.Text != "" && cParent != null)
+                button2.Enabled = true;
         }
     }
 }

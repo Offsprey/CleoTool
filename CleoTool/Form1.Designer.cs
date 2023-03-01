@@ -36,19 +36,21 @@
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button4 = new System.Windows.Forms.Button();
             this.listView2 = new System.Windows.Forms.ListView();
             this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.textBox3 = new System.Windows.Forms.TextBox();
-            this.columnHeader6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -57,27 +59,31 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(12, 12);
+            this.button1.Location = new System.Drawing.Point(9, 10);
+            this.button1.Margin = new System.Windows.Forms.Padding(2);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(93, 23);
+            this.button1.Size = new System.Drawing.Size(79, 23);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Parse LUA";
+            this.button1.Text = "Refresh";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // treeView1
             // 
-            this.treeView1.Location = new System.Drawing.Point(123, 12);
+            this.treeView1.Location = new System.Drawing.Point(92, 10);
+            this.treeView1.Margin = new System.Windows.Forms.Padding(2);
             this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(339, 608);
+            this.treeView1.Size = new System.Drawing.Size(255, 495);
             this.treeView1.TabIndex = 3;
             this.treeView1.AfterSelect += new System.Windows.Forms.TreeViewEventHandler(this.treeView1_AfterSelect);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(6, 76);
+            this.button2.Enabled = false;
+            this.button2.Location = new System.Drawing.Point(4, 62);
+            this.button2.Margin = new System.Windows.Forms.Padding(2);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(177, 23);
+            this.button2.Size = new System.Drawing.Size(134, 19);
             this.button2.TabIndex = 4;
             this.button2.Text = "Build Raid Roster";
             this.button2.UseVisualStyleBackColor = true;
@@ -85,26 +91,30 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(6, 48);
+            this.textBox1.Location = new System.Drawing.Point(4, 39);
+            this.textBox1.Margin = new System.Windows.Forms.Padding(2);
             this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(177, 22);
+            this.textBox1.Size = new System.Drawing.Size(134, 20);
             this.textBox1.TabIndex = 6;
+            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
             // 
             // listView1
             // 
             this.listView1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.listView1.BackColor = System.Drawing.SystemColors.InactiveCaption;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2,
             this.columnHeader3,
             this.columnHeader6});
-            this.listView1.Font = new System.Drawing.Font("Book Antiqua", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.listView1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(199, 139);
+            this.listView1.Location = new System.Drawing.Point(149, 113);
+            this.listView1.Margin = new System.Windows.Forms.Padding(2);
             this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(661, 459);
+            this.listView1.Size = new System.Drawing.Size(497, 374);
             this.listView1.TabIndex = 7;
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
@@ -125,30 +135,39 @@
             this.columnHeader3.Text = "Class";
             this.columnHeader3.Width = 164;
             // 
+            // columnHeader6
+            // 
+            this.columnHeader6.Text = "Alts";
+            // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.button3);
             this.groupBox1.Controls.Add(this.textBox2);
             this.groupBox1.Controls.Add(this.listView1);
             this.groupBox1.Controls.Add(this.textBox1);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Location = new System.Drawing.Point(4, 5);
+            this.groupBox1.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(866, 604);
+            this.groupBox1.Padding = new System.Windows.Forms.Padding(2);
+            this.groupBox1.Size = new System.Drawing.Size(650, 491);
             this.groupBox1.TabIndex = 8;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Raid Signups";
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(31, 139);
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(5, 113);
+            this.button3.Margin = new System.Windows.Forms.Padding(2);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(113, 23);
+            this.button3.Size = new System.Drawing.Size(133, 19);
             this.button3.TabIndex = 9;
-            this.button3.Text = "Export Roster";
+            this.button3.Text = "Export Roster HTML";
             this.button3.UseVisualStyleBackColor = true;
             this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
@@ -156,11 +175,12 @@
             // 
             this.textBox2.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox2.Location = new System.Drawing.Point(199, 21);
+            this.textBox2.Location = new System.Drawing.Point(149, 17);
+            this.textBox2.Margin = new System.Windows.Forms.Padding(2);
             this.textBox2.Multiline = true;
             this.textBox2.Name = "textBox2";
             this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(661, 112);
+            this.textBox2.Size = new System.Drawing.Size(497, 92);
             this.textBox2.TabIndex = 8;
             // 
             // tabControl1
@@ -170,35 +190,50 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(468, 3);
+            this.tabControl1.Location = new System.Drawing.Point(351, 2);
+            this.tabControl1.Margin = new System.Windows.Forms.Padding(2);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(886, 645);
+            this.tabControl1.Size = new System.Drawing.Size(664, 524);
             this.tabControl1.TabIndex = 10;
             // 
             // tabPage1
             // 
             this.tabPage1.Controls.Add(this.groupBox1);
-            this.tabPage1.Location = new System.Drawing.Point(4, 25);
+            this.tabPage1.Location = new System.Drawing.Point(4, 22);
+            this.tabPage1.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(878, 616);
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage1.Size = new System.Drawing.Size(656, 498);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "RH Signups";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button4);
             this.tabPage2.Controls.Add(this.listView2);
             this.tabPage2.Controls.Add(this.comboBox2);
             this.tabPage2.Controls.Add(this.comboBox1);
-            this.tabPage2.Location = new System.Drawing.Point(4, 25);
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Margin = new System.Windows.Forms.Padding(2);
             this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(878, 616);
+            this.tabPage2.Padding = new System.Windows.Forms.Padding(2);
+            this.tabPage2.Size = new System.Drawing.Size(656, 498);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Loot Lists";
             this.tabPage2.UseVisualStyleBackColor = true;
+            // 
+            // button4
+            // 
+            this.button4.Enabled = false;
+            this.button4.Location = new System.Drawing.Point(43, 140);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(114, 23);
+            this.button4.TabIndex = 3;
+            this.button4.Text = "Export List HTML";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // listView2
             // 
@@ -206,12 +241,14 @@
             this.columnHeader4,
             this.columnHeader5});
             this.listView2.HideSelection = false;
-            this.listView2.Location = new System.Drawing.Point(267, 7);
+            this.listView2.Location = new System.Drawing.Point(200, 6);
+            this.listView2.Margin = new System.Windows.Forms.Padding(2);
             this.listView2.Name = "listView2";
-            this.listView2.Size = new System.Drawing.Size(605, 603);
+            this.listView2.Size = new System.Drawing.Size(455, 491);
             this.listView2.TabIndex = 2;
             this.listView2.UseCompatibleStateImageBehavior = false;
             this.listView2.View = System.Windows.Forms.View.Details;
+            this.listView2.SelectedIndexChanged += new System.EventHandler(this.listView2_SelectedIndexChanged);
             // 
             // columnHeader4
             // 
@@ -225,9 +262,10 @@
             // 
             this.comboBox2.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(6, 75);
+            this.comboBox2.Location = new System.Drawing.Point(4, 61);
+            this.comboBox2.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(233, 24);
+            this.comboBox2.Size = new System.Drawing.Size(176, 21);
             this.comboBox2.TabIndex = 1;
             this.comboBox2.SelectedIndexChanged += new System.EventHandler(this.comboBox2_SelectedIndexChanged);
             // 
@@ -235,33 +273,42 @@
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(6, 27);
+            this.comboBox1.Location = new System.Drawing.Point(4, 22);
+            this.comboBox1.Margin = new System.Windows.Forms.Padding(2);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(233, 24);
+            this.comboBox1.Size = new System.Drawing.Size(176, 21);
             this.comboBox1.TabIndex = 0;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
             // textBox3
             // 
-            this.textBox3.Location = new System.Drawing.Point(123, 626);
+            this.textBox3.Location = new System.Drawing.Point(92, 509);
+            this.textBox3.Margin = new System.Windows.Forms.Padding(2);
             this.textBox3.Name = "textBox3";
             this.textBox3.ReadOnly = true;
-            this.textBox3.Size = new System.Drawing.Size(339, 22);
+            this.textBox3.Size = new System.Drawing.Size(255, 20);
             this.textBox3.TabIndex = 11;
             // 
-            // columnHeader6
+            // label1
             // 
-            this.columnHeader6.Text = "Alts";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(5, 24);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(43, 13);
+            this.label1.TabIndex = 10;
+            this.label1.Text = "Raid ID";
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1366, 660);
+            this.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.ClientSize = new System.Drawing.Size(1024, 536);
             this.Controls.Add(this.textBox3);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.treeView1);
             this.Controls.Add(this.button1);
+            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "Form1";
             this.Text = "CleoTool";
             this.Load += new System.EventHandler(this.Form1_Load);
@@ -297,6 +344,8 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.ColumnHeader columnHeader5;
         private System.Windows.Forms.ColumnHeader columnHeader6;
+        private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.Label label1;
     }
 }
 

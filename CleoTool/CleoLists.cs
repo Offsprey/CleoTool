@@ -24,6 +24,8 @@ namespace CleoTool
         public void buildPlayerList(CElement players, CElement  alts, CElement lList)
         {
             //populate toon list from gloabl cache
+            toons.Clear();
+            player.Clear();
             foreach (CElement cePlayer in players.children)
             {
                 String id = cePlayer.ToString();
@@ -39,7 +41,7 @@ namespace CleoTool
                 {
                     int t = 0;
                 }
-                toons.Add(new String[] { id.Substring(id.IndexOf("-") + 1), pName });
+                toons.Add(new String[] { id.Substring(id.IndexOf("-") + 1), pName, cePlayer.findAtt("class") });
             }
             //populate players from loot list
             foreach (String[] lst in lList.att)
@@ -74,9 +76,20 @@ namespace CleoTool
             return "";
         }
 
+        public String findToonClass(String id)
+        {
+            foreach (String[] toon in toons)
+            {
+                if (toon[0] == id)
+                    return toon[2];
+            }
+            return "";
+        }
+
         public void buildRHData(String RHjson)
         {
-            dPlayer.Add("GhostPlayer");
+            dPlayer.Clear();
+            //dPlayer.Add("GhostPlayer");
 
             //populate player sign up info
             String[] sections = RHjson.Split('[');
