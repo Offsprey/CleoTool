@@ -89,6 +89,7 @@ namespace CleoTool
         public void buildRHData(String RHjson)
         {
             dPlayer.Clear();
+            dsMapping.Clear();
             //dPlayer.Add("GhostPlayer");
 
             //populate player sign up info
