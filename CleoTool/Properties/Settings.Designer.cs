@@ -12,7 +12,7 @@ namespace CleoTool.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.3.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.4.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -38,17 +38,76 @@ namespace CleoTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute(@"<html>
-<body>
-<!--StartFragment--><google-sheets-html-origin><style type=""text/css""><!--td {border: 1px solid #cccccc;}br {mso-data-placement:same-cell;}--></style><table xmlns=""http://www.w3.org/1999/xhtml"" cellspacing=""0"" cellpadding=""0"" dir=""ltr"" border=""1"" style=""table-layout:fixed;font-size:10pt;font-family:Arial;width:0px;border-collapse:collapse;border:none""><colgroup><col width=""100""/></colgroup><tbody><tr style=""height:21px;""><td style=""overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;"" data-sheets-value=""{&quot;1&quot;:2,&quot;2&quot;:&quot;Test1&quot;}"">Test1</td></tr><tr style=""height:21px;""><td style=""overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;color:#ff0000;"" data-sheets-value=""{&quot;1&quot;:2,&quot;2&quot;:&quot;Test2&quot;}"">Test2</td></tr><tr style=""height:21px;""><td style=""overflow:hidden;padding:2px 3px 2px 3px;vertical-align:bottom;font-weight:bold;"" data-sheets-value=""{&quot;1&quot;:2,&quot;2&quot;:&quot;Test3&quot;}"">Test3</td></tr></tbody></table><!--EndFragment-->
-</body>
-</html>")]
-        public string GoogleSheetsPaste {
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Program Files (x86)\\\\World of Warcraft\\\\_classic_\\\\WTF\\\\Account\\\\OFFSPREY\\\\Sa" +
+            "vedVariables\\\\Cleo.lua")]
+        public string CleoConfigLoc {
             get {
-                return ((string)(this["GoogleSheetsPaste"]));
+                return ((string)(this["CleoConfigLoc"]));
             }
             set {
-                this["GoogleSheetsPaste"] = value;
+                this["CleoConfigLoc"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_DB>global>cache>player>")]
+        public string ToonCache {
+            get {
+                return ((string)(this["ToonCache"]));
+            }
+            set {
+                this["ToonCache"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>634442A9-6586-D664-5DB7-" +
+            "DEA8147C6E33>alts")]
+        public string AltMapping {
+            get {
+                return ((string)(this["AltMapping"]));
+            }
+            set {
+                this["AltMapping"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>63446602-2A74-DAD4-6934-BE542E7DB" +
+            "A8E>players")]
+        public string ActivePlayerList {
+            get {
+                return ((string)(this["ActivePlayerList"]));
+            }
+            set {
+                this["ActivePlayerList"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>")]
+        public string LootConfigs {
+            get {
+                return ((string)(this["LootConfigs"]));
+            }
+            set {
+                this["LootConfigs"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>")]
+        public string LootLists {
+            get {
+                return ((string)(this["LootLists"]));
+            }
+            set {
+                this["LootLists"] = value;
             }
         }
     }

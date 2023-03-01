@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -40,6 +41,11 @@ namespace CleoTool
         private void Form1_Load(object sender, EventArgs e)
         {
             initConfig();
+            
+            foreach(SettingsProperty prop in Properties.Settings.Default.Properties)
+            {
+                comboBox3.Items.Add(prop.Name);
+            }
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -57,7 +63,7 @@ namespace CleoTool
             //parse lua data
             try
             {
-                String rawTxt = System.IO.File.ReadAllText("C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua");
+                String rawTxt = System.IO.File.ReadAllText(Properties.Settings.Default.CleoConfigLoc);
                 //String rawTxt = System.IO.File.ReadAllText("C:\\Users\\16187\\Documents\\Cleo.lua");
                 rawTxt = rawTxt.Replace("\n", "");
                 rawTxt = rawTxt.Replace("\r", "");
@@ -81,10 +87,10 @@ namespace CleoTool
             //build list data
             try
             {
-                cl.buildPlayerList(CConfig.findElement("Cleo_DB>global>cache>player>", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>634442A9-6586-D664-5DB7-DEA8147C6E33>alts", cParent), CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>63446602-2A74-DAD4-6934-BE542E7DBA8E>players", cParent));
+                cl.buildPlayerList(CConfig.findElement(Properties.Settings.Default.ToonCache, cParent), CConfig.findElement(Properties.Settings.Default.AltMapping, cParent), CConfig.findElement(Properties.Settings.Default.ActivePlayerList, cParent));
 
-                lootListconfig.LootListsConfig = CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>", cParent).children.ToArray();
-                lootListconfig.LootLists = CConfig.findElement("Cleo_Lists>factionrealm>Alliance - Atiesh>lists>", cParent).children.ToArray();
+                lootListconfig.LootListsConfig = CConfig.findElement(Properties.Settings.Default.LootConfigs, cParent).children.ToArray();
+                lootListconfig.LootLists = CConfig.findElement(Properties.Settings.Default.LootLists, cParent).children.ToArray();
                 comboBox1.Items.Clear();
                 foreach (CElement llConfig in lootListconfig.LootListsConfig)
                 {
@@ -452,7 +458,7 @@ namespace CleoTool
                 }
                 foreach (String dp in cl.dPlayer)
                 {
-                    String[] lviAttributes = new string[] { dp, "Not in Cleo", "not in Cleo" };
+                    String[] lviAttributes = new string[] { dp, "No Cleo Match", ""};
                     ListViewItem nItem = new ListViewItem(lviAttributes);
                     nItem.BackColor = Color.Orange;
                     listView1.Items.Add(nItem);
@@ -692,6 +698,16 @@ namespace CleoTool
         {
             if (textBox1.Text != "" && cParent != null)
                 button2.Enabled = true;
+        }
+
+        private void textBox2_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            textBox4.Text = Properties.Settings.Default.Properties[comboBox3.SelectedItem.ToString()].DefaultValue.ToString();
         }
     }
 }
