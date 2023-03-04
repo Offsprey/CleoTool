@@ -12,6 +12,7 @@ namespace CleoTool
         private String rLrole = "NONE";
         private String RLstatus = "NONE";
         private String RLtoon = "NONE";
+        private String RLposition= "NONE";
 
         public CPlayer()
         {
@@ -21,6 +22,7 @@ namespace CleoTool
         public string RLrole { get => rLrole; set => rLrole = value; }
         public string RLstatus1 { get => RLstatus; set => RLstatus = value; }
         public string RLtoon1 { get => RLtoon; set => RLtoon = value; }
+        public string RLposition1 { get => RLposition; set => RLposition = value; }
 
         public override String ToString()
         {

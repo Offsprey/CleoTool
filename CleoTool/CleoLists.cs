@@ -28,19 +28,9 @@ namespace CleoTool
             player.Clear();
             foreach (CElement cePlayer in players.children)
             {
-                String id = cePlayer.ToString();
-                //String pName = cePlayer.att[0][1];
-                //String pName = "NO NAME ATT";
-                //foreach (String[] att in cePlayer.att)
-                //{
-                //    if (att[0] == "name")
-                //        pName = att[1];
-                //}
+                String id = cePlayer.ToString();               
                 String pName = cePlayer.findAtt("name");
-                if (pName == "Officer")
-                {
-                    int t = 0;
-                }
+                
                 toons.Add(new String[] { id.Substring(id.IndexOf("-") + 1), pName, cePlayer.findAtt("class") });
             }
             //populate players from loot list
@@ -90,7 +80,7 @@ namespace CleoTool
         {
             dPlayer.Clear();
             dsMapping.Clear();
-            //dPlayer.Add("GhostPlayer");
+            //*dPlayer.Add("GhostPlayer");
 
             //populate player sign up info
             String[] sections = RHjson.Split('[');
@@ -115,14 +105,10 @@ namespace CleoTool
                     RHname = RHname.Split('(')[0];
                     RHname = RHname.Replace("\\", "");
                     RHname = RHname.Replace("\"", "");
-
-                    if (RHname.StartsWith("Z"))
-                    {
-                        int t2 = 0;
-                    }
                     
                     String RHrole = attributes[0].Split(':')[1].Trim().Trim('"');
                     String RHclass = attributes[8].Split(':')[1].Trim().Trim('"');
+                    String RHposition = attributes[4].Split(':')[1].Trim().Trim('"');
                     //find player from sign up
                     CPlayer tPlayer = findPlayer(RHname);
 
@@ -132,6 +118,7 @@ namespace CleoTool
                         tPlayer.RLstatus1 = RHclass;
                         tPlayer.RLtoon1 = RHname;
                         tPlayer.RLrole = RHrole;
+                        tPlayer.RLposition1 = RHposition;
                     }
                     else if (attributes[0].Split(':')[0].Trim().Trim('"') != "show_header")
                         dPlayer.Add(attributes[1].Split(':')[1].Trim().Trim('"'));

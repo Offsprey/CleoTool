@@ -182,10 +182,10 @@ namespace CleoTool
                     String nextStr = next[1];
                     if (nextStr.Contains("--"))
                         nextStr = nextStr.Substring(nextStr.IndexOf("]") + 1);
-                    if (!nextStr.Contains("}") && !nextStr.Contains("["))
-                    {
-                        int t = 0;
-                    }
+                    //if (!nextStr.Contains("}") && !nextStr.Contains("["))
+                    //{
+                    //    int t = 0;
+                    //}
                 }
                 else if (doc[cIndex] == '}')
                     //break;
@@ -382,7 +382,6 @@ namespace CleoTool
             {
                 String[] sep = atVal.Split('=');
                 obj.addAttribute(sep);
-                int t = 0;
             }            
         }
 
@@ -437,6 +436,14 @@ namespace CleoTool
                 System.DateTime updateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
                 updateTime = updateTime.AddMilliseconds(lastUpdate).ToLocalTime();
 
+                String unixClosing = RHdata.Substring(RHdata.IndexOf("closingtime") + 13);
+                unixClosing = unixClosing.Remove(unixClosing.IndexOf(","));
+                Double dUnixClosing = Double.Parse(unixClosing);
+                System.DateTime closingTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
+                closingTime = closingTime.AddSeconds(dUnixClosing).ToLocalTime();
+
+
+
                 foreach (CPlayer cPlayer in cl.player)
                 {                    
                     String altStr = "";
@@ -464,7 +471,7 @@ namespace CleoTool
                     listView1.Items.Add(nItem);
                 }
                 textBox2.Text = cl.RHmsg;
-                textBox2.Text += "Last Updated : " + updateTime + " - Date Pulled : " + DateTime.Now.ToLocalTime() + "ST";
+                textBox2.Text += "Last Updated : " + updateTime + " - Closing Time : " + closingTime + " - Date Pulled : " + DateTime.Now.ToLocalTime() + "ST";
                 button3.Enabled = true;
             }           
         }
@@ -497,7 +504,31 @@ namespace CleoTool
             String htmlEnd = "</tbody></table><!--EndFragment-->\r\n</body>\r\n</html>";
 
             String rosterHtml = htmlStart + tHead + "<tbody>";
+            CPlayer[] RHplayerSorted = new CPlayer[cl.player.Count];
             foreach (CPlayer cPlayer in cl.player)
+            {
+                int pos = 100;
+                if (cPlayer.RLposition1 != "NONE")
+                {
+                    pos = Int16.Parse(cPlayer.RLposition1);
+                    RHplayerSorted[pos - 1] = cPlayer;
+                }
+                else
+                {                    
+                    int fPos = RHplayerSorted.Length - 1;
+                    while(true)
+                    {
+                        if (RHplayerSorted[fPos] == null)
+                        {
+                            RHplayerSorted[fPos] = cPlayer;
+                            break;
+                        }
+                        fPos--;
+                    }
+                }
+            }
+
+            foreach (CPlayer cPlayer in RHplayerSorted)
             {
                 rosterHtml += "<tr>";
                 rosterHtml += cellStart + cPlayer.ToString().Split('-')[0] + cellEnd;
@@ -520,14 +551,15 @@ namespace CleoTool
                 rosterHtml += cellStartRed + "RH - Not in Cleo" + cellEnd;
                 rosterHtml += "</tr>";
             }
-            rosterHtml += "<tr><td>" + textBox2.Lines.Last<string>() + "</td></tr>";
+            //rosterHtml += "<tr><td>" + textBox2.Lines.Last<string>() + "</td></tr>";
+            rosterHtml += "<tr><td>" + textBox2.Text + "</td></tr>";
             rosterHtml += htmlEnd;
             String RHdate = textBox2.Lines[1];
             String[] RHdateFix = RHdate.Split('-');
             RHdate = RHdateFix[1] + "-" + RHdateFix[0] + "-" + RHdateFix[2];
             String oFileName = "RHroster-" + RHdate + ".html";
 
-            System.IO.File.WriteAllText("C:\\Users\\offsp\\Documents\\" + oFileName, rosterHtml);
+            System.IO.File.WriteAllText(Properties.Settings.Default + oFileName, rosterHtml);
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
@@ -690,7 +722,7 @@ namespace CleoTool
             String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
             String oFileName = "Cleo-" + comboBox1.Text + "-" + cleoDate + ".html";
 
-            System.IO.File.WriteAllText("C:\\Users\\offsp\\Documents\\" + oFileName, rosterHtml);
+            System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
             
         }
 

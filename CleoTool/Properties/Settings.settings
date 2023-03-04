@@ -23,5 +23,8 @@
     <Setting Name="LootLists" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cleo_Lists&gt;factionrealm&gt;Alliance - Atiesh&gt;lists&gt;</Value>
     </Setting>
+    <Setting Name="OutputLoc" Type="System.String" Scope="User">
+      <Value Profile="(Default)">C:\\Users\\offsp\\Documents\\</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

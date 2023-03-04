@@ -110,5 +110,17 @@ namespace CleoTool.Properties {
                 this["LootLists"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Users\\\\offsp\\\\Documents\\\\")]
+        public string OutputLoc {
+            get {
+                return ((string)(this["OutputLoc"]));
+            }
+            set {
+                this["OutputLoc"] = value;
+            }
+        }
     }
 }
