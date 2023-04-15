@@ -19,6 +19,23 @@ namespace CleoTool
 
         }
 
+        public CPlayer(string rLrole, string rLstatus, string rLtoon, string rLposition)
+        {
+            this.rLrole = rLrole;
+            RLstatus = rLstatus;
+            RLtoon = rLtoon;
+            RLposition = rLposition;
+        }
+
+        public CPlayer(string rLrole, string rLstatus, string rLtoon, string rLposition, string mToon)
+        {
+            this.rLrole = rLrole;
+            RLstatus = rLstatus;
+            RLtoon = rLtoon;
+            RLposition = rLposition;
+            toons.Add(new String[] { "Not In Cleo", mToon });
+        }
+
         public string RLrole { get => rLrole; set => rLrole = value; }
         public string RLstatus1 { get => RLstatus; set => RLstatus = value; }
         public string RLtoon1 { get => RLtoon; set => RLtoon = value; }

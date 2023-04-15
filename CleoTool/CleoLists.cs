@@ -10,7 +10,7 @@ namespace CleoTool
     internal class CleoLists
     {
         public List<CPlayer> player = new List<CPlayer>();
-        public List<String> dPlayer = new List<String>();
+        public List<CPlayer> dPlayer = new List<CPlayer>();
         List<String[]> toons = new List<String[]>();
         List<String> dsMapping = new List<String>();
         public string RHmsg = "";
@@ -121,7 +121,8 @@ namespace CleoTool
                         tPlayer.RLposition1 = RHposition;
                     }
                     else if (attributes[0].Split(':')[0].Trim().Trim('"') != "show_header")
-                        dPlayer.Add(attributes[1].Split(':')[1].Trim().Trim('"'));
+                        //dPlayer.Add(attributes[1].Split(':')[1].Trim().Trim('"'));
+                        player.Add(new CPlayer("*" + RHrole,RHclass, "*" + RHname, RHposition,RHname));
                      
                 }
             }

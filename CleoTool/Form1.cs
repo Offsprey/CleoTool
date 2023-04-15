@@ -463,9 +463,9 @@ namespace CleoTool
                     nItem.Tag = cPlayer;
                     listView1.Items.Add(nItem);
                 }
-                foreach (String dp in cl.dPlayer)
+                foreach (CPlayer dp in cl.dPlayer)
                 {
-                    String[] lviAttributes = new string[] { dp, "No Cleo Match", ""};
+                    String[] lviAttributes = new string[] { dp.RLtoon1, "No Cleo Match", ""};
                     ListViewItem nItem = new ListViewItem(lviAttributes);
                     nItem.BackColor = Color.Orange;
                     listView1.Items.Add(nItem);
@@ -528,6 +528,29 @@ namespace CleoTool
                 }
             }
 
+            //foreach (CPlayer cPlayer in cl.dPlayer)
+            //{
+            //    int pos = 100;
+            //    if (cPlayer.RLposition1 != "NONE")
+            //    {
+            //        pos = Int16.Parse(cPlayer.RLposition1);
+            //        RHplayerSorted[pos - 1] = cPlayer;
+            //    }
+            //    else
+            //    {
+            //        int fPos = RHplayerSorted.Length - 1;
+            //        while (true)
+            //        {
+            //            if (RHplayerSorted[fPos] == null)
+            //            {
+            //                RHplayerSorted[fPos] = cPlayer;
+            //                break;
+            //            }
+            //            fPos--;
+            //        }
+            //    }
+            //}
+
             foreach (CPlayer cPlayer in RHplayerSorted)
             {
                 rosterHtml += "<tr>";
@@ -537,6 +560,8 @@ namespace CleoTool
                     status = "RH - Tentative";
                 else if (cPlayer.RLstatus1 == "Absence")
                     status = "RH - Absence";
+                else if (cPlayer.RLstatus1 == "Bench")
+                    status = "RH - Bench";
                 else if (cPlayer.RLstatus1 == "NONE")
                     status = "RH - No Signup";
                 else
@@ -544,13 +569,13 @@ namespace CleoTool
                 rosterHtml += cellStart + status + cellEnd;
                 rosterHtml += "</tr>";
             }
-            foreach(String dp in cl.dPlayer)
-            {
-                rosterHtml += "<tr>";
-                rosterHtml += cellStartRed + "*" + dp + cellEnd;
-                rosterHtml += cellStartRed + "RH - Not in Cleo" + cellEnd;
-                rosterHtml += "</tr>";
-            }
+            //foreach(String dp in cl.dPlayer)
+            //{
+            //    rosterHtml += "<tr>";
+            //    rosterHtml += cellStartRed + "*" + dp + cellEnd;
+            //    rosterHtml += cellStartRed + "RH - Not in Cleo" + cellEnd;
+            //    rosterHtml += "</tr>";
+            //}
             //rosterHtml += "<tr><td>" + textBox2.Lines.Last<string>() + "</td></tr>";
             rosterHtml += "<tr><td>" + textBox2.Text + "</td></tr>";
             rosterHtml += htmlEnd;
@@ -559,7 +584,7 @@ namespace CleoTool
             RHdate = RHdateFix[1] + "-" + RHdateFix[0] + "-" + RHdateFix[2];
             String oFileName = "RHroster-" + RHdate + ".html";
 
-            System.IO.File.WriteAllText(Properties.Settings.Default + oFileName, rosterHtml);
+            System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
         }
 
         private void treeView1_AfterSelect(object sender, TreeViewEventArgs e)
