@@ -80,14 +80,17 @@ namespace CleoTool
         {
             dPlayer.Clear();
             dsMapping.Clear();
-            //*dPlayer.Add("GhostPlayer");
+            //*dPlayer.Add("GhostPlayer")
 
             //populate player sign up info
             String[] sections = RHjson.Split('[');
             String[] RHsignups = sections[1].Split('{');
+            List<String> RHsignupsList = RHsignups.ToList();
+            RHsignupsList.RemoveAt(RHsignupsList.Count - 1);
+
             //map toon-discord name
             dsMapping.AddRange(Properties.Settings.Default.DiscordUserMapping.Split('{'));
-            foreach (String s in RHsignups)
+            foreach (String s in RHsignupsList)
             {
                 if (!String.IsNullOrEmpty(s))
                 {
@@ -122,7 +125,7 @@ namespace CleoTool
                     }
                     else if (attributes[0].Split(':')[0].Trim().Trim('"') != "show_header")
                         //dPlayer.Add(attributes[1].Split(':')[1].Trim().Trim('"'));
-                        player.Add(new CPlayer("*" + RHrole,RHclass, "*" + RHname, RHposition,RHname));
+                        player.Add(new CPlayer("*" + RHrole, RHclass, "*" + RHname, RHposition,RHname));
                      
                 }
             }

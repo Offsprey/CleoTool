@@ -566,6 +566,8 @@ namespace CleoTool
                     status = "RH - No Signup";
                 else
                     status = "RH - Attending";
+                if (cPlayer.RLrole.StartsWith("*"))
+                    status = "*" + status;
                 rosterHtml += cellStart + status + cellEnd;
                 rosterHtml += "</tr>";
             }
@@ -734,7 +736,10 @@ namespace CleoTool
                 for (int o = 0; o < listCount; o++)
                 {
                     //row += "<td>" + lists[o, i] + "</td>";
-                    row += lists[o, i];
+                    if (lists[o, i] == null)
+                        row += "<td>-</td>";
+                    else
+                        row += lists[o, i];
                 }
                 row += "</tr>";
                 rosterHtml += row;
