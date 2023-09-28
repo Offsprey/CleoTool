@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="DiscordUserMapping" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Missed:Missedshift}</Value>
+      <Value Profile="(Default)">{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Missed:Missedshift}{Couch:Coùch}{Sabatar.Splurty:Sabatar}</Value>
     </Setting>
     <Setting Name="CleoConfigLoc" Type="System.String" Scope="User">
       <Value Profile="(Default)">C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua</Value>

@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Runtime.Remoting.Metadata.W3cXsd2001;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -415,7 +416,10 @@ namespace CleoTool
                //stupid characters
                 byte[] utf8Bytes = Encoding.UTF8.GetBytes(wc.DownloadString("https://raid-helper.dev/api/event/" + textBox1.Text));
                 byte[] win1252Bytes = Encoding.Convert(Encoding.UTF8, Encoding.GetEncoding("Windows-1252"), utf8Bytes);
-                RHdata = Encoding.UTF8.GetString(win1252Bytes);
+                RHdata = Encoding.UTF8.GetString(win1252Bytes).Trim(new char[] {'{','}' });
+                String[] pData = RHdata.Split(',');
+                if (pData[0].Contains("unknown event"))
+                    throw new Exception(pData[0]);
             }
             catch (Exception ex)
             {
@@ -424,6 +428,9 @@ namespace CleoTool
                 listView1.Items.Add(nItem);
                 wcError = true;
             }
+
+
+
             if (RHdata != "" && !wcError)
             {
                 
@@ -610,11 +617,14 @@ namespace CleoTool
             CElement[] lootLists = lootListconfig.getlootLists(llconfigId);
             comboBox2.Items.Clear();
 
+            List<string> strLists = new List<string>();
             foreach (CElement loot in lootLists)
             {
-                comboBox2.Items.Add(lootListconfig.getllName(loot.ToString()));
+                strLists.Add(lootListconfig.getllName(loot.ToString()));
+                //comboBox2.Items.Add(lootListconfig.getllName(loot.ToString()));
             }
-
+            //var sortedList = strLists.OrderBy(x => x).ToList();
+            comboBox2.Items.AddRange(strLists.OrderBy(x => x).ToArray());
             button4.Enabled = true;
         }
 
@@ -770,6 +780,24 @@ namespace CleoTool
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
             textBox4.Text = Properties.Settings.Default.Properties[comboBox3.SelectedItem.ToString()].DefaultValue.ToString();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            Console.WriteLine(DataCompression.zlipDecomp("test"));
+        }
+
+        private void textBox5_TextChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                textBox6.Text = DataCompression.zlipDecomp(textBox5.Text);
+            }
+            catch (Exception ex)
+            {
+                textBox5.Text = "";
+            }
+
         }
     }
 }

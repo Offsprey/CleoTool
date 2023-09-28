@@ -27,7 +27,7 @@ namespace CleoTool.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:" +
             "Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Miss" +
-            "ed:Missedshift}")]
+            "ed:Missedshift}{Couch:Coùch}{Sabatar.Splurty:Sabatar}")]
         public string DiscordUserMapping {
             get {
                 return ((string)(this["DiscordUserMapping"]));

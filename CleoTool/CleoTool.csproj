@@ -98,6 +98,7 @@
     <Compile Include="CleoLists.cs" />
     <Compile Include="CleoLootListConfig.cs" />
     <Compile Include="CPlayer.cs" />
+    <Compile Include="DataCompression.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
