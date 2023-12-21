@@ -3,17 +3,21 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.Remoting.Metadata.W3cXsd2001;
+using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Microsoft.VisualBasic.FileIO;
 
 using Newtonsoft.Json;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using static CleoTool.CleoToolDBDataSet;
 
 namespace CleoTool
 {
@@ -70,12 +74,15 @@ namespace CleoTool
                 rawTxt = rawTxt.Replace("\r", "");
                 rawTxt = rawTxt.Replace("\t", "");
                 //parse lua data
+                if (!rawTxt.StartsWith("Cleo_DB"))
+                    throw new Exception("Invalid Cleo Config File - " + Properties.Settings.Default.CleoConfigLoc);
                 cParse4(rawTxt, cParent);
                 //build treeview
                 TreeNode root = new TreeNode(cParent.ToString());
                 buildTreeNodes(root, cParent);
                 treeView1.Nodes.Clear();
                 treeView1.Nodes.Add(root);
+                toolStripStatusLabel1.Text = "-";
             }
             catch (Exception ex)
             {
@@ -83,6 +90,7 @@ namespace CleoTool
                 buildTreeNodes(root, cParent);
                 treeView1.Nodes.Clear();
                 treeView1.Nodes.Add(root);
+                toolStripStatusLabel1.Text = ex.Message;
             }
 
             //build list data
@@ -102,6 +110,8 @@ namespace CleoTool
             {
                 comboBox1.Items.Add(ex.Message);
             }
+
+            
         }
 
         private void cParse(String doc, CElement parent)
@@ -626,6 +636,38 @@ namespace CleoTool
             //var sortedList = strLists.OrderBy(x => x).ToList();
             comboBox2.Items.AddRange(strLists.OrderBy(x => x).ToArray());
             button4.Enabled = true;
+            textBox8.Enabled = true;
+            textBox8.Text = comboBox1.Text + " - " + DateTime.Now;
+            comboBox4.Enabled= true;
+            comboBox4.Items.Clear();
+            button8.Enabled = true;
+
+            //populate loot DB selection from config
+            try
+            {
+                using (SqlConnection conn = new SqlConnection())
+                {
+
+                    conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    conn.Open();
+
+                    //Find previous loot instance
+                    SqlCommand command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR,Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            comboBox4.Items.Add(reader[1]);
+                        }
+                    }
+
+                    conn.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                comboBox4.Items.Add(ex.Message);
+            }
         }
 
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
@@ -639,7 +681,50 @@ namespace CleoTool
             foreach(String[] player in llPlayers.att)
             {
                 String toonName = cl.findToonName(player[1]);
+                String toonClass = cl.findToonClass(player[1]);
                 ListViewItem lItem = new ListViewItem(new string[] { player[0], toonName });
+                
+
+                switch (toonClass)
+                {
+                    case "DEATHKNIGHT":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(DK_COLOR);                        
+                        break;
+                    case "DRUID":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(DRUID_COLOR);
+                        break;
+                    case "HUNTER":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(HUNTER_COLOR);
+                        break;
+                    case "MAGE":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(MAGE_COLOR);
+                        break;
+                    case "PALADIN":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(PALY_COLOR);
+                        break;
+                    case "PRIEST":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(PRIEST_COLOR);
+                        break;
+                    case "ROGUE":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(ROGUE_COLOR);
+                        break;
+                    case "SHAMAN":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(SHAMAN_COLOR);
+                        break;
+                    case "WARLOCK":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(WARLOCK_COLOR);
+                        break;
+                    case "WARRIOR":
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml(WARRIOR_COLOR);
+                        break;
+                    default:
+                        lItem.BackColor = System.Drawing.ColorTranslator.FromHtml("#ff33cc");
+                        break;
+
+
+                }
+
+                
                 listView2.Items.Add(lItem);
             }
 
@@ -779,7 +864,8 @@ namespace CleoTool
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            textBox4.Text = Properties.Settings.Default.Properties[comboBox3.SelectedItem.ToString()].DefaultValue.ToString();
+            textBox4.Text = Properties.Settings.Default.PropertyValues[comboBox3.SelectedItem.ToString()].PropertyValue.ToString();
+            //textBox4.Text = Properties.Settings.Default.Properties[comboBox3.SelectedItem.ToString()].DefaultValue.ToString();
         }
 
         private void button5_Click(object sender, EventArgs e)
@@ -798,6 +884,449 @@ namespace CleoTool
                 textBox5.Text = "";
             }
 
+        }
+
+        private void tabControl1_Enter(object sender, EventArgs e)
+        {
+            textBox7.Text = Properties.Settings.Default.CleoConfigLoc.ToString();
+
+            openFileDialog1.FileName = Properties.Settings.Default.CleoConfigLoc;
+            openFileDialog1.InitialDirectory = Properties.Settings.Default.CleoConfigLoc.Remove(Properties.Settings.Default.CleoConfigLoc.LastIndexOf("\\"));
+            //"C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua";
+        }
+
+        private void button6_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            textBox7.Text = openFileDialog1.FileName;
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            //Properties.Settings.Default.CleoConfigLoc = textBox7.Text;
+            Properties.Settings.Default["CleoConfigLoc"] = textBox7.Text;
+            Properties.Settings.Default.Save();
+        }
+
+        private void toolStripStatusLabel1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button8_Click(object sender, EventArgs e)
+        {
+            DialogResult dialogResult = MessageBox.Show("Ensure Loot Instance Name is Correct.", "Save to Database", MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                saveToBD();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                //do something else
+            }
+
+
+        }
+
+        public void saveToBD()
+        {
+            using (SqlConnection conn = new SqlConnection())
+            {
+
+
+
+                //build list table
+                int ilist = 0;
+                String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), (String)comboBox2.Items[0]);
+                CElement ll = lootListconfig.getlootList(llconfigId);
+                CElement llPlayers = CConfig.findElement("players", ll);
+                String[,] lists = new string[comboBox2.Items.Count, llPlayers.att.Count];
+                int playerCount = llPlayers.att.Count;
+                int listCount = comboBox2.Items.Count;
+
+                //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\offsp\source\repos\Offsprey\CleoTool\CleoTool\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30
+                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.Open();
+
+
+                // use the connection here
+                SqlCommand insertCommand = new SqlCommand("INSERT INTO Loot (LootInstance, LootDateTime, LootConfig, LootServer) VALUES (@0, @1, @2, @3)", conn);
+                insertCommand.Parameters.Add(new SqlParameter("0", textBox8.Text));
+                insertCommand.Parameters.Add(new SqlParameter("1", DateTime.Now));
+                insertCommand.Parameters.Add(new SqlParameter("2", comboBox1.SelectedItem));
+                insertCommand.Parameters.Add(new SqlParameter("3", Properties.Settings.Default.LootLists));
+                insertCommand.ExecuteNonQuery();
+
+
+                SqlCommand command = new SqlCommand("SELECT LootId FROM Loot WHERE LootId=(SELECT max(LootId) FROM Loot)", conn);
+                int id = 0;
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    reader.Read();
+                    var rid = reader[0];
+                    id = Convert.ToInt32(rid);
+                }
+
+                foreach (String list in comboBox2.Items)
+                {
+                    llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), list);
+                    ll = lootListconfig.getlootList(llconfigId);
+                    llPlayers = CConfig.findElement("players", ll);
+
+                    foreach (String[] player in llPlayers.att)
+                    {
+                        String toonName = cl.findToonName(player[1]);
+                        String toonClass = cl.findToonClass(player[1]);
+
+                        SqlCommand insertCommand2 = new SqlCommand("INSERT INTO LootListEntry (LootList, LootRank, PlayerName, LootId, PlayerClass) VALUES (@0, @1, @2, @3, @4)", conn);
+                        insertCommand2.Parameters.Add(new SqlParameter("0", list));
+                        insertCommand2.Parameters.Add(new SqlParameter("1", player[0]));
+                        insertCommand2.Parameters.Add(new SqlParameter("2", toonName));
+                        insertCommand2.Parameters.Add(new SqlParameter("3", id));
+                        insertCommand2.Parameters.Add(new SqlParameter("4", toonClass));
+                        insertCommand2.ExecuteNonQuery();
+
+
+                    }
+                    ilist++;
+                }
+
+
+                conn.Close();
+            }
+        }
+
+
+        public void importRanking(string filePath)
+        {
+            using (TextFieldParser parser = new TextFieldParser(filePath))
+            {
+                using (SqlConnection conn = new SqlConnection())
+                {
+
+                    conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    conn.Open();
+
+
+                    // use the connection here
+                    SqlCommand insertCommand = new SqlCommand("INSERT INTO Loot (LootInstance, LootDateTime, LootConfig, LootServer) VALUES (@0, @1, @2, @3)", conn);
+                    insertCommand.Parameters.Add(new SqlParameter("0", ""));
+                    insertCommand.Parameters.Add(new SqlParameter("1", DateTime.Now));
+                    insertCommand.Parameters.Add(new SqlParameter("2", ""));
+                    insertCommand.Parameters.Add(new SqlParameter("3", ""));
+                    insertCommand.ExecuteNonQuery();
+
+
+                    SqlCommand command = new SqlCommand("SELECT LootId FROM Loot WHERE LootId=(SELECT max(LootId) FROM Loot)", conn);
+                    int id = 0;
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        reader.Read();
+                        var rid = reader[0];
+                        id = Convert.ToInt32(rid);
+                    }
+
+                    parser.TextFieldType = FieldType.Delimited;
+                    parser.SetDelimiters("\t");
+                    string[] listFields = new string[0];
+                    int row = 0;
+                    while (!parser.EndOfData)
+                    {
+                        //Process row
+                        
+                        string[] fields = parser.ReadFields();
+
+                        int column = 0;
+                        if (row == 0)
+                        {
+                            listFields = fields;
+                        }
+                        else
+                        {
+                            foreach (string field in fields)
+                            {
+                                if (column != 0)
+                                {
+                                    SqlCommand insertCommand2 = new SqlCommand("INSERT INTO LootListEntry (LootList, LootRank, PlayerName, LootId, PlayerClass) VALUES (@0, @1, @2, @3, @4)", conn);
+                                    insertCommand2.Parameters.Add(new SqlParameter("0", listFields[column]));
+                                    insertCommand2.Parameters.Add(new SqlParameter("1", row));
+                                    insertCommand2.Parameters.Add(new SqlParameter("2", field + "-Atiesh"));
+                                    insertCommand2.Parameters.Add(new SqlParameter("3", id));
+                                    insertCommand2.Parameters.Add(new SqlParameter("4", ""));
+                                    insertCommand2.ExecuteNonQuery();
+                                }
+                                column++;
+                            }
+                        }
+                        row++;
+
+                    }
+
+                    conn.Close();
+                }
+            }
+        }
+
+        private void button9_Click(object sender, EventArgs e)
+        {
+            importRanking("C:\\Users\\offsp\\Downloads\\Untitled spreadsheet - Sheet1.tsv");
+        }
+
+        private void button10_Click(object sender, EventArgs e)
+        {
+
+            using (SqlConnection conn = new SqlConnection())
+            {
+
+                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.Open();
+
+                String pLootInstance = "";
+                int pLootId = 0;
+
+                //Find previous loot instance
+                //SqlCommand command = new SqlCommand("SELECT * FROM Loot WHERE LootDateTime=(SELECT max(LootDateTime) FROM Loot)", conn);
+                SqlCommand command = new SqlCommand("SELECT * FROM Loot", conn);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        String rInst = (string)reader[1];
+                        if (rInst == comboBox4.SelectedItem.ToString())
+                        {
+                            pLootId = Convert.ToInt32(reader[0]);
+                            pLootInstance = (string)reader[1];
+                        }
+                    }
+                }
+
+
+
+                //build list table
+                int ilist = 0;
+                String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), (String)comboBox2.Items[0]);
+                CElement ll = lootListconfig.getlootList(llconfigId);
+                CElement llPlayers = CConfig.findElement("players", ll);
+                String[,] lists = new string[comboBox2.Items.Count, llPlayers.att.Count];
+                int playerCount = llPlayers.att.Count;
+                int listCount = comboBox2.Items.Count;
+
+                foreach (String list in comboBox2.Items)
+                {
+                    llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), list);
+                    ll = lootListconfig.getlootList(llconfigId);
+                    llPlayers = CConfig.findElement("players", ll);
+
+                    int iplayer = 0;
+                    foreach (String[] player in llPlayers.att)
+                    {
+                        String toonName = cl.findToonName(player[1]);
+                        String toonClass = cl.findToonClass(player[1]);
+                        String row = "<td><span style=color:";
+                        switch (toonClass)
+                        {
+                            case "DEATHKNIGHT":
+                                row += DK_COLOR;
+                                break;
+                            case "DRUID":
+                                row += DRUID_COLOR;
+                                break;
+                            case "HUNTER":
+                                row += HUNTER_COLOR;
+                                break;
+                            case "MAGE":
+                                row += MAGE_COLOR;
+                                break;
+                            case "PALADIN":
+                                row += PALY_COLOR;
+                                break;
+                            case "PRIEST":
+                                row += PRIEST_COLOR;
+                                break;
+                            case "ROGUE":
+                                row += ROGUE_COLOR;
+                                break;
+                            case "SHAMAN":
+                                row += SHAMAN_COLOR;
+                                break;
+                            case "WARLOCK":
+                                row += WARLOCK_COLOR;
+                                break;
+                            case "WARRIOR":
+                                row += WARRIOR_COLOR;
+                                break;
+                            default:
+                                row += "#ff33cc";
+                                break;
+
+
+                        }
+                        row += ";>";
+                        //build differential data from DB
+                        String difStr = "*";
+                        String difColor = "#fefefe";
+                        try
+                        {
+                            int pRank = 0;
+                            command = new SqlCommand("SELECT LootRank FROM LootListEntry WHERE (" +
+                                "LootId=" + pLootId.ToString() +
+                                " AND CONVERT(VARCHAR,PlayerName) = '" + toonName + "'" +
+                                " AND CONVERT(VARCHAR,LootList) = '" + list + "'" +
+                                ")", conn);
+                            using (SqlDataReader reader = command.ExecuteReader())
+                            {
+                                reader.Read();
+                                var rid = reader[0];
+                                pRank = Convert.ToInt32(rid);
+                            }
+                            int rDif = pRank - (iplayer + 1);
+                            if (rDif < 0)
+                            {
+                                difStr = Math.Abs(rDif).ToString();                                
+                                difColor = "#fa0202";
+                            }
+                            else if (rDif > 0)
+                            {
+                                difStr = rDif.ToString();
+                                difColor = "#10f202";
+                            }
+                            else
+                            {
+                                difStr = "-";
+                            }
+
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine(ex.Message);
+                        }
+                        ListViewItem lItem = new ListViewItem(new string[] { player[0], toonName });
+                         
+                        lists[ilist, iplayer] = row + toonName.Split('-')[0] + "</span><span style=font-weight:normal;color:" + difColor +"> (" + difStr + ")</span></td>";
+                        iplayer++;
+                    }
+                    ilist++;
+                }
+
+                //build HTML table
+                //#6a6a6a
+                //light theme
+                //String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #D6EEEE;}body{font-family: Arial, Helvetica, sans-serif;}tr {border-bottom: 2px solid #6a6a6a;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;font-style:bold;}table {border-collapse: collapse;}</style>";
+                //dark theme
+                String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #666666;}body{font-family: Arial, Helvetica, sans-serif;background-color:#4d4d4d; color:#d9d9d9;}tr {border-bottom: 1px solid #d9d9d9;}th, td {padding-left: 30px;padding-right: 30px;max-width: 140;}table {border-collapse: collapse;color:#d9d9d9;font-weight:bold;}</style>";
+                String htmlStart = "<html><head>" + htmlStyle + "</head><body><!--StartFragment--><table>";
+                String tHead = "<thead><tr><th>Priority</th>";
+                foreach (String list in comboBox2.Items)
+                {
+                    tHead += "<th>" + list + "</th>";
+                }
+                tHead += "</tr></thead>";
+                String cellStart = "<td>";
+                String cellEnd = "</td>";
+                String htmlEnd = "<!--EndFragment-->\r\n</body>\r\n</html>";
+
+                String rosterHtml = htmlStart + tHead + "<tbody>";
+
+
+                for (int i = 0; i < playerCount; i++)
+                {
+                    String row = "<tr>" + cellStart + (i + 1).ToString() + cellEnd;
+                    for (int o = 0; o < listCount; o++)
+                    {
+                        //row += "<td>" + lists[o, i] + "</td>";
+                        if (lists[o, i] == null)
+                            row += "<td>-</td>";
+                        else
+                            row += lists[o, i];
+                    }
+                    row += "</tr>";
+                    rosterHtml += row;
+
+                }
+                rosterHtml += "</tbody></table>";
+                rosterHtml += "<div>" + comboBox1.Text + " - " + DateTime.Now + "</div>";
+                rosterHtml += htmlEnd;
+
+                String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
+                String oFileName = "Cleo-" + comboBox1.Text + "-" + cleoDate + ".html";
+
+
+                System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
+                conn.Close();
+            }
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            button10.Enabled = true;
+            button11.Enabled = true;
+        }
+
+        private void textBox8_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button11_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection conn = new SqlConnection())
+            {
+                //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\offsp\source\repos\Offsprey\CleoTool\CleoTool\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30
+                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.Open();
+
+                String pLootInstance = "";
+                int pLootId = 0;
+
+                SqlCommand command = new SqlCommand("SELECT * FROM Loot", conn);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        String rInst = (string)reader[1];
+                        if (rInst == comboBox4.SelectedItem.ToString())
+                        {
+                            pLootId = Convert.ToInt32(reader[0]);
+                            pLootInstance = (string)reader[1];
+                        }
+                    }
+                }
+
+                
+                SqlCommand deleteCommand = new SqlCommand("DELETE FROM LootListEntry WHERE LootId = " + pLootId , conn);
+
+                deleteCommand.ExecuteNonQuery();
+
+                deleteCommand = new SqlCommand("DELETE FROM Loot WHERE LootId = " + pLootId, conn);
+
+                deleteCommand.ExecuteNonQuery();
+
+                comboBox4.Items.Clear();
+                button10.Enabled = false;
+                button11.Enabled = false;
+
+                //Find previous loot instance
+                command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR,Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
+                using (SqlDataReader reader = command.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        comboBox4.Items.Add(reader[1]);
+                    }
+                }
+
+                conn.Close();
+            }
         }
     }
 }

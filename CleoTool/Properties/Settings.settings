@@ -2,17 +2,14 @@
 <SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="CleoTool.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
-    <Setting Name="DiscordUserMapping" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Missed:Missedshift}{Couch:Coùch}{Sabatar.Splurty:Sabatar}</Value>
-    </Setting>
     <Setting Name="CleoConfigLoc" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua</Value>
+      <Value Profile="(Default)">C:\Program Files (x86)\World of Warcraft\_classic_\WTF\Account\OFFSPREY\SavedVariables\Cleo.lua</Value>
     </Setting>
     <Setting Name="ToonCache" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cleo_DB&gt;global&gt;cache&gt;player&gt;</Value>
     </Setting>
     <Setting Name="AltMapping" Type="System.String" Scope="User">
-      <Value Profile="(Default)">Cleo_Lists&gt;factionrealm&gt;Alliance - Atiesh&gt;configurations&gt;634442A9-6586-D664-5DB7-DEA8147C6E33&gt;alts</Value>
+      <Value Profile="(Default)">k</Value>
     </Setting>
     <Setting Name="ActivePlayerList" Type="System.String" Scope="User">
       <Value Profile="(Default)">Cleo_Lists&gt;factionrealm&gt;Alliance - Atiesh&gt;lists&gt;63446602-2A74-DAD4-6934-BE542E7DBA8E&gt;players</Value>
@@ -24,7 +21,18 @@
       <Value Profile="(Default)">Cleo_Lists&gt;factionrealm&gt;Alliance - Atiesh&gt;lists&gt;</Value>
     </Setting>
     <Setting Name="OutputLoc" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\\Users\\offsp\\Documents\\</Value>
+      <Value Profile="(Default)">C:\Users\offsp\Documents\</Value>
+    </Setting>
+    <Setting Name="DiscordUserMapping" Type="System.String" Scope="User">
+      <Value Profile="(Default)">{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Missed:Missedshift}{Couch:Coùch}{Splurt.Kiluall:Sabatar}</Value>
+    </Setting>
+    <Setting Name="CleoToolDBConnectionString" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"&gt;
+  &lt;ConnectionString&gt;Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30&lt;/ConnectionString&gt;
+  &lt;ProviderName&gt;System.Data.SqlClient&lt;/ProviderName&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30</Value>
     </Setting>
   </Settings>
 </SettingsFile>
