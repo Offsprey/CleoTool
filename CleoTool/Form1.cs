@@ -69,7 +69,6 @@ namespace CleoTool
             try
             {
                 String rawTxt = System.IO.File.ReadAllText(Properties.Settings.Default.CleoConfigLoc);
-                //String rawTxt = System.IO.File.ReadAllText("C:\\Users\\16187\\Documents\\Cleo.lua");
                 rawTxt = rawTxt.Replace("\n", "");
                 rawTxt = rawTxt.Replace("\r", "");
                 rawTxt = rawTxt.Replace("\t", "");
@@ -545,28 +544,6 @@ namespace CleoTool
                 }
             }
 
-            //foreach (CPlayer cPlayer in cl.dPlayer)
-            //{
-            //    int pos = 100;
-            //    if (cPlayer.RLposition1 != "NONE")
-            //    {
-            //        pos = Int16.Parse(cPlayer.RLposition1);
-            //        RHplayerSorted[pos - 1] = cPlayer;
-            //    }
-            //    else
-            //    {
-            //        int fPos = RHplayerSorted.Length - 1;
-            //        while (true)
-            //        {
-            //            if (RHplayerSorted[fPos] == null)
-            //            {
-            //                RHplayerSorted[fPos] = cPlayer;
-            //                break;
-            //            }
-            //            fPos--;
-            //        }
-            //    }
-            //}
 
             foreach (CPlayer cPlayer in RHplayerSorted)
             {
@@ -588,14 +565,7 @@ namespace CleoTool
                 rosterHtml += cellStart + status + cellEnd;
                 rosterHtml += "</tr>";
             }
-            //foreach(String dp in cl.dPlayer)
-            //{
-            //    rosterHtml += "<tr>";
-            //    rosterHtml += cellStartRed + "*" + dp + cellEnd;
-            //    rosterHtml += cellStartRed + "RH - Not in Cleo" + cellEnd;
-            //    rosterHtml += "</tr>";
-            //}
-            //rosterHtml += "<tr><td>" + textBox2.Lines.Last<string>() + "</td></tr>";
+            
             rosterHtml += "<tr><td>" + textBox2.Text + "</td></tr>";
             rosterHtml += htmlEnd;
             String RHdate = textBox2.Lines[1];
@@ -633,7 +603,6 @@ namespace CleoTool
                 strLists.Add(lootListconfig.getllName(loot.ToString()));
                 //comboBox2.Items.Add(lootListconfig.getllName(loot.ToString()));
             }
-            //var sortedList = strLists.OrderBy(x => x).ToList();
             comboBox2.Items.AddRange(strLists.OrderBy(x => x).ToArray());
             button4.Enabled = true;
             textBox8.Enabled = true;
@@ -648,7 +617,8 @@ namespace CleoTool
                 using (SqlConnection conn = new SqlConnection())
                 {
 
-                    conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    //conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    conn.ConnectionString = Properties.Settings.Default.CleoToolDBConnectionString;
                     conn.Open();
 
                     //Find previous loot instance
@@ -673,7 +643,6 @@ namespace CleoTool
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
             String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString());
-            //String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), comboBox2.SelectedItem.ToString().Split('-')[0].Trim());
 
             CElement ll = lootListconfig.getlootList(llconfigId);
             CElement llPlayers = CConfig.findElement("players", ll);
@@ -805,11 +774,6 @@ namespace CleoTool
                 ilist++;
             }
 
-            //build HTML table
-            //#6a6a6a
-            //light theme
-            //String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #D6EEEE;}body{font-family: Arial, Helvetica, sans-serif;}tr {border-bottom: 2px solid #6a6a6a;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;font-style:bold;}table {border-collapse: collapse;}</style>";
-            //dark theme
             String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #666666;}body{font-family: Arial, Helvetica, sans-serif;background-color:#4d4d4d; color:#d9d9d9;}tr {border-bottom: 1px solid #d9d9d9;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;}table {border-collapse: collapse;color:#d9d9d9;font-weight:bold;}</style>";
             String htmlStart = "<html><head>" + htmlStyle + "</head><body><!--StartFragment--><table>";
             String tHead = "<thead><tr><th>Priority</th>";
@@ -892,7 +856,6 @@ namespace CleoTool
 
             openFileDialog1.FileName = Properties.Settings.Default.CleoConfigLoc;
             openFileDialog1.InitialDirectory = Properties.Settings.Default.CleoConfigLoc.Remove(Properties.Settings.Default.CleoConfigLoc.LastIndexOf("\\"));
-            //"C:\\Program Files (x86)\\World of Warcraft\\_classic_\\WTF\\Account\\OFFSPREY\\SavedVariables\\Cleo.lua";
         }
 
         private void button6_Click(object sender, EventArgs e)
@@ -943,8 +906,6 @@ namespace CleoTool
             using (SqlConnection conn = new SqlConnection())
             {
 
-
-
                 //build list table
                 int ilist = 0;
                 String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), (String)comboBox2.Items[0]);
@@ -953,11 +914,8 @@ namespace CleoTool
                 String[,] lists = new string[comboBox2.Items.Count, llPlayers.att.Count];
                 int playerCount = llPlayers.att.Count;
                 int listCount = comboBox2.Items.Count;
-
-                //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\offsp\source\repos\Offsprey\CleoTool\CleoTool\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30
-                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.ConnectionString = Properties.Settings.Default.CleoToolDBConnectionString;
                 conn.Open();
-
 
                 // use the connection here
                 SqlCommand insertCommand = new SqlCommand("INSERT INTO Loot (LootInstance, LootDateTime, LootConfig, LootServer) VALUES (@0, @1, @2, @3)", conn);
@@ -1013,10 +971,9 @@ namespace CleoTool
             {
                 using (SqlConnection conn = new SqlConnection())
                 {
-
-                    conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                    
+                    conn.ConnectionString = Properties.Settings.Default.CleoToolDBConnectionString;
                     conn.Open();
-
 
                     // use the connection here
                     SqlCommand insertCommand = new SqlCommand("INSERT INTO Loot (LootInstance, LootDateTime, LootConfig, LootServer) VALUES (@0, @1, @2, @3)", conn);
@@ -1079,7 +1036,8 @@ namespace CleoTool
 
         private void button9_Click(object sender, EventArgs e)
         {
-            importRanking("C:\\Users\\offsp\\Downloads\\Untitled spreadsheet - Sheet1.tsv");
+            //tab seperated values
+            importRanking("C:\\Sheet1.tsv");
         }
 
         private void button10_Click(object sender, EventArgs e)
@@ -1087,8 +1045,7 @@ namespace CleoTool
 
             using (SqlConnection conn = new SqlConnection())
             {
-
-                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.ConnectionString = Properties.Settings.Default.CleoToolDBConnectionString;
                 conn.Open();
 
                 String pLootInstance = "";
@@ -1109,8 +1066,6 @@ namespace CleoTool
                         }
                     }
                 }
-
-
 
                 //build list table
                 int ilist = 0;
@@ -1192,16 +1147,19 @@ namespace CleoTool
                             int rDif = pRank - (iplayer + 1);
                             if (rDif < 0)
                             {
+                                //down list
                                 difStr = Math.Abs(rDif).ToString();                                
                                 difColor = "#fa0202";
                             }
                             else if (rDif > 0)
                             {
+                                //up list
                                 difStr = rDif.ToString();
                                 difColor = "#10f202";
                             }
                             else
                             {
+                                //no change
                                 difStr = "-";
                             }
 
@@ -1219,13 +1177,11 @@ namespace CleoTool
                 }
 
                 //build HTML table
-                //#6a6a6a
-                //light theme
-                //String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #D6EEEE;}body{font-family: Arial, Helvetica, sans-serif;}tr {border-bottom: 2px solid #6a6a6a;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;font-style:bold;}table {border-collapse: collapse;}</style>";
                 //dark theme
                 String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #666666;}body{font-family: Arial, Helvetica, sans-serif;background-color:#4d4d4d; color:#d9d9d9;}tr {border-bottom: 1px solid #d9d9d9;}th, td {padding-left: 30px;padding-right: 30px;max-width: 140;}table {border-collapse: collapse;color:#d9d9d9;font-weight:bold;}</style>";
                 String htmlStart = "<html><head>" + htmlStyle + "</head><body><!--StartFragment--><table>";
                 String tHead = "<thead><tr><th>Priority</th>";
+                //build list names
                 foreach (String list in comboBox2.Items)
                 {
                     tHead += "<th>" + list + "</th>";
@@ -1279,10 +1235,10 @@ namespace CleoTool
 
         private void button11_Click(object sender, EventArgs e)
         {
+            //delete loot instance
             using (SqlConnection conn = new SqlConnection())
             {
-                //Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\offsp\source\repos\Offsprey\CleoTool\CleoTool\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30
-                conn.ConnectionString = "Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\Offsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeout=30";
+                conn.ConnectionString = Properties.Settings.Default.CleoToolDBConnectionString;
                 conn.Open();
 
                 String pLootInstance = "";
@@ -1301,7 +1257,6 @@ namespace CleoTool
                         }
                     }
                 }
-
                 
                 SqlCommand deleteCommand = new SqlCommand("DELETE FROM LootListEntry WHERE LootId = " + pLootId , conn);
 

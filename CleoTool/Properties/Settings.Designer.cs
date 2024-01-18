@@ -50,7 +50,8 @@ namespace CleoTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("k")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Cleo_Lists>factionrealm>Alliance - Atiesh>configurations>634442A9-6586-D664-5DB7-" +
+            "DEA8147C6E33>alts")]
         public string AltMapping {
             get {
                 return ((string)(this["AltMapping"]));
@@ -111,9 +112,9 @@ namespace CleoTool.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("{Booze/Felie:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:" +
-            "Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Prayermayor/Rarebear:Snarebear}{Miss" +
-            "ed:Missedshift}{Couch:Coùch}{Splurt.Kiluall:Sabatar}")]
+        [global::System.Configuration.DefaultSettingValueAttribute("{Booze:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackbu" +
+            "rtón}{Path:Octane}{Jekka/Febra:Febra}{Missed:Missedshift}{Saekosan/Kagari:Kagari" +
+            "}{Tarazed/Illuminarin:Illuminarin}{Viki:Vikai}{Zhitnik:Valjean}")]
         public string DiscordUserMapping {
             get {
                 return ((string)(this["DiscordUserMapping"]));
@@ -126,8 +127,9 @@ namespace CleoTool.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\\CleoToolDB.md" +
-            "f;Integrated Security=True;Connect Timeout=30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\offsp\\source\\repos\\O" +
+            "ffsprey\\CleoTool\\CleoTool\\CleoToolDB.mdf;Integrated Security=True;Connect Timeou" +
+            "t=30")]
         public string CleoToolDBConnectionString {
             get {
                 return ((string)(this["CleoToolDBConnectionString"]));
