@@ -114,7 +114,8 @@ namespace CleoTool.Properties {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("{Booze:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackbu" +
             "rtón}{Path:Octane}{Jekka/Febra:Febra}{Missed:Missedshift}{Saekosan/Kagari:Kagari" +
-            "}{Tarazed/Illuminarin:Illuminarin}{Viki:Vikai}{Zhitnik:Valjean}")]
+            "}{Tarazed/Illuminarin:Illuminarin}{Viki:Vikai}{Zhitnik:Valjean}{Jezebel:Jezebél}" +
+            "")]
         public string DiscordUserMapping {
             get {
                 return ((string)(this["DiscordUserMapping"]));
