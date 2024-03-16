@@ -1210,7 +1210,7 @@ namespace CleoTool
 
                 }
                 rosterHtml += "</tbody></table>";
-                rosterHtml += "<div>" + comboBox1.Text + " - " + DateTime.Now + "</div>";
+                rosterHtml += "<<span>" + comboBox1.Text + " - " + DateTime.Now + "</span><span style='float:right;padding-right:80px'><span  style='color:#10f202'>(#)</span> Moved Up   : <span style='color:#fa0202'>(#)</span> Moved Down   : <span> (-) No Movement</span></td><td>   : <span>(*) New</span></span></div>";
                 rosterHtml += htmlEnd;
 
                 String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");

@@ -24,7 +24,7 @@
       <Value Profile="(Default)">C:\Users\offsp\Documents\</Value>
     </Setting>
     <Setting Name="DiscordUserMapping" Type="System.String" Scope="User">
-      <Value Profile="(Default)">{Booze:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Missed:Missedshift}{Saekosan/Kagari:Kagari}{Tarazed/Illuminarin:Illuminarin}{Viki:Vikai}{Zhitnik:Valjean}{Jezebel:Jezebél}</Value>
+      <Value Profile="(Default)">{Booze:Erboozel}{Kerri/Ann:Kerridwen}{Z-Zealót/Zoidbérg:Zealót}{Jackburton:Jackburtón}{Path:Octane}{Jekka/Febra:Febra}{Missed:Missedshift}{Saekosan/Kagari:Kagari}{Tarazed/Illuminarin:Illuminarin}{Viki:Vikai}{Zhitnik:Valjean}{Jezebel:Jezebél}{Tyr/Othiom:Mytr}</Value>
     </Setting>
     <Setting Name="CleoToolDBConnectionString" Type="(Connection string)" Scope="Application">
       <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
