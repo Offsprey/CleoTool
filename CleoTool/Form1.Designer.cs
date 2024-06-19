@@ -43,13 +43,14 @@
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.label1 = new System.Windows.Forms.Label();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.button12 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button11 = new System.Windows.Forms.Button();
+            this.button9 = new System.Windows.Forms.Button();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
             this.button10 = new System.Windows.Forms.Button();
             this.textBox8 = new System.Windows.Forms.TextBox();
             this.button8 = new System.Windows.Forms.Button();
-            this.button9 = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
@@ -247,6 +248,7 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.button12);
             this.tabPage2.Controls.Add(this.groupBox2);
             this.tabPage2.Controls.Add(this.label3);
             this.tabPage2.Controls.Add(this.label2);
@@ -263,6 +265,17 @@
             this.tabPage2.Text = "Loot Lists";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // button12
+            // 
+            this.button12.Enabled = false;
+            this.button12.Location = new System.Drawing.Point(16, 469);
+            this.button12.Name = "button12";
+            this.button12.Size = new System.Drawing.Size(137, 23);
+            this.button12.TabIndex = 19;
+            this.button12.Text = "Export Average";
+            this.button12.UseVisualStyleBackColor = true;
+            this.button12.Click += new System.EventHandler(this.button12_Click);
             // 
             // groupBox2
             // 
@@ -289,6 +302,17 @@
             this.button11.Text = "Delete";
             this.button11.UseVisualStyleBackColor = true;
             this.button11.Click += new System.EventHandler(this.button11_Click);
+            // 
+            // button9
+            // 
+            this.button9.Enabled = false;
+            this.button9.Location = new System.Drawing.Point(163, 132);
+            this.button9.Name = "button9";
+            this.button9.Size = new System.Drawing.Size(75, 23);
+            this.button9.TabIndex = 15;
+            this.button9.Text = "Raw Import";
+            this.button9.UseVisualStyleBackColor = true;
+            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // comboBox4
             // 
@@ -331,17 +355,6 @@
             this.button8.Text = "Save to Loot DB";
             this.button8.UseVisualStyleBackColor = true;
             this.button8.Click += new System.EventHandler(this.button8_Click);
-            // 
-            // button9
-            // 
-            this.button9.Enabled = false;
-            this.button9.Location = new System.Drawing.Point(163, 132);
-            this.button9.Name = "button9";
-            this.button9.Size = new System.Drawing.Size(75, 23);
-            this.button9.TabIndex = 15;
-            this.button9.Text = "Raw Import";
-            this.button9.UseVisualStyleBackColor = true;
-            this.button9.Click += new System.EventHandler(this.button9_Click);
             // 
             // label3
             // 
@@ -712,6 +725,7 @@
         private System.Windows.Forms.ComboBox comboBox4;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.Button button11;
+        private System.Windows.Forms.Button button12;
     }
 }
 

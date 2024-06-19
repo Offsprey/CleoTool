@@ -610,6 +610,7 @@ namespace CleoTool
             comboBox4.Enabled= true;
             comboBox4.Items.Clear();
             button8.Enabled = true;
+            button12.Enabled = true;
 
             //populate loot DB selection from config
             try
@@ -622,7 +623,7 @@ namespace CleoTool
                     conn.Open();
 
                     //Find previous loot instance
-                    SqlCommand command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR,Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
+                    SqlCommand command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR(MAX),Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -1135,8 +1136,8 @@ namespace CleoTool
                             int pRank = 0;
                             command = new SqlCommand("SELECT LootRank FROM LootListEntry WHERE (" +
                                 "LootId=" + pLootId.ToString() +
-                                " AND CONVERT(VARCHAR,PlayerName) = '" + toonName + "'" +
-                                " AND CONVERT(VARCHAR,LootList) = '" + list + "'" +
+                                " AND CONVERT(VARCHAR(MAX),PlayerName) = '" + toonName + "'" +
+                                " AND CONVERT(VARCHAR(MAX),LootList) = '" + list + "'" +
                                 ")", conn);
                             using (SqlDataReader reader = command.ExecuteReader())
                             {
@@ -1210,7 +1211,7 @@ namespace CleoTool
 
                 }
                 rosterHtml += "</tbody></table>";
-                rosterHtml += "<<span>" + comboBox1.Text + " - " + DateTime.Now + "</span><span style='float:right;padding-right:70px'><span  style='color:#10f202'>(#)</span> Moved Up   : <span style='color:#fa0202'>(#)</span> Moved Down   : <span> (-) No Movement</span></td><td>   : <span>(*) New</span></span></div>";
+                rosterHtml += "<span>" + comboBox1.Text + " - " + DateTime.Now + "</span><span style='float:right;padding-right:70px'><span  style='color:#10f202'>(#)</span> Moved Up   : <span style='color:#fa0202'>(#)</span> Moved Down   : <span> (-) No Movement</span></td><td>   : <span>(*) New</span></span></div>";
                 rosterHtml += htmlEnd;
 
                 String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
@@ -1271,7 +1272,7 @@ namespace CleoTool
                 button11.Enabled = false;
 
                 //Find previous loot instance
-                command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR,Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
+                command = new SqlCommand("SELECT * FROM Loot WHERE CONVERT(VARCHAR(MAX),Lootconfig) = '" + comboBox1.SelectedItem + "' ORDER BY LootDateTime DESC", conn);
                 using (SqlDataReader reader = command.ExecuteReader())
                 {
                     while (reader.Read())
@@ -1282,6 +1283,128 @@ namespace CleoTool
 
                 conn.Close();
             }
+        }
+
+        private void button12_Click(object sender, EventArgs e)
+        {
+            //build list table
+            int ilist = 0;
+            String llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), (String)comboBox2.Items[0]);
+            CElement ll = lootListconfig.getlootList(llconfigId);
+            CElement llPlayers = CConfig.findElement("players", ll);
+            String[,] lists = new string[comboBox2.Items.Count, llPlayers.att.Count];
+            int playerCount = llPlayers.att.Count;
+            int listCount = comboBox2.Items.Count;
+
+            Dictionary<string, int> playerTotal =  new Dictionary<string, int>();
+
+            foreach (String list in comboBox2.Items)
+            {
+                llconfigId = lootListconfig.getllID(comboBox1.SelectedItem.ToString(), list);
+                ll = lootListconfig.getlootList(llconfigId);
+                llPlayers = CConfig.findElement("players", ll);
+
+                int iplayer = 0;
+                foreach (String[] player in llPlayers.att)
+                {
+                    String toonName = cl.findToonName(player[1]);
+                    String toonClass = cl.findToonClass(player[1]);
+                    String row = "<td style=color:";
+                    switch (toonClass)
+                    {
+                        case "DEATHKNIGHT":
+                            row += DK_COLOR;
+                            break;
+                        case "DRUID":
+                            row += DRUID_COLOR;
+                            break;
+                        case "HUNTER":
+                            row += HUNTER_COLOR;
+                            break;
+                        case "MAGE":
+                            row += MAGE_COLOR;
+                            break;
+                        case "PALADIN":
+                            row += PALY_COLOR;
+                            break;
+                        case "PRIEST":
+                            row += PRIEST_COLOR;
+                            break;
+                        case "ROGUE":
+                            row += ROGUE_COLOR;
+                            break;
+                        case "SHAMAN":
+                            row += SHAMAN_COLOR;
+                            break;
+                        case "WARLOCK":
+                            row += WARLOCK_COLOR;
+                            break;
+                        case "WARRIOR":
+                            row += WARRIOR_COLOR;
+                            break;
+                        default:
+                            row += "#ff33cc";
+                            break;
+
+
+                    }
+                    row += ";>";
+
+                    ListViewItem lItem = new ListViewItem(new string[] { player[0], toonName });
+                    lists[ilist, iplayer] = toonName.Split('-')[0];
+                    iplayer++;
+                }
+                ilist++;
+            }
+
+            String htmlStyle = "<style>td:nth-child(even), th:nth-child(even) {background-color: #666666;}body{font-family: Arial, Helvetica, sans-serif;background-color:#4d4d4d; color:#d9d9d9;}tr {border-bottom: 1px solid #d9d9d9;}th, td {padding-left: 40px;padding-right: 40px;max-width: 100;}table {border-collapse: collapse;color:#d9d9d9;font-weight:bold;}</style>";
+            String htmlStart = "<html><head>" + htmlStyle + "</head><body><!--StartFragment--><table>";
+            String tHead = "<thead><tr><th>Player</th><th>Average Position</th></tr></thead>";
+            
+            String cellStart = "<td>";
+            String cellEnd = "</td>";
+            String htmlEnd = "<!--EndFragment-->\r\n</body>\r\n</html>";
+
+            String rosterHtml = htmlStart + tHead + "<tbody>";
+
+
+            for (int i = 0; i < playerCount; i++)
+            {
+                
+                for (int o = 0; o < listCount; o++)
+                {
+                    string player = lists[o, i];
+                    if (playerTotal.ContainsKey(player))
+                    {
+                        playerTotal[player] += i + 1;
+                    }
+                    else
+                    {
+                        playerTotal[player] = i + 1;
+                    }
+
+                }
+                
+
+            }
+
+            string output = "";
+            foreach (KeyValuePair<string, int> pair in playerTotal)
+            {
+                String row = "<tr>" + cellStart + pair.Key + cellEnd;
+                row += cellStart + (pair.Value / listCount).ToString() + cellEnd;
+                row += "</tr>";
+                rosterHtml += row;
+                output += pair.Key + "," + (pair.Value / listCount).ToString() + "\r\n";
+            }
+            rosterHtml += "</tbody></table>";
+            rosterHtml += "<div>" + comboBox1.Text + " - " + DateTime.Now + "</div>";
+            rosterHtml += htmlEnd;
+
+            String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
+            String oFileName = "Cleo-AveragePos-" + comboBox1.Text + "-" + cleoDate + ".html";
+
+            System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
         }
     }
 }
