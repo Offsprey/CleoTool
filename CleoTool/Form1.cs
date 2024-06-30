@@ -813,6 +813,7 @@ namespace CleoTool
             String oFileName = "Cleo-" + comboBox1.Text + "-" + cleoDate + ".html";
 
             System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
+            webBrowser1.Navigate(Properties.Settings.Default.OutputLoc + oFileName);
             
         }
 
@@ -1211,14 +1212,15 @@ namespace CleoTool
 
                 }
                 rosterHtml += "</tbody></table>";
-                rosterHtml += "<span>" + comboBox1.Text + " - " + DateTime.Now + "</span><span style='float:right;padding-right:70px'><span  style='color:#10f202'>(#)</span> Moved Up   : <span style='color:#fa0202'>(#)</span> Moved Down   : <span> (-) No Movement</span></td><td>   : <span>(*) New</span></span></div>";
+                rosterHtml += "<span>" + comboBox4.SelectedItem.ToString() + " > " +comboBox1.Text + " - " + DateTime.Now + "</span><span style='padding-left:490px;'><span  style='color:#10f202'>(#)</span> Moved Up   | <span style='color:#fa0202'>(#)</span> Moved Down   | <span> (-) No Movement</span></td><td>   | <span>(*) New</span></span></div>";
                 rosterHtml += htmlEnd;
 
                 String cleoDate = DateTime.Now.ToString("yyyy-dd-M--HH-mm");
-                String oFileName = "Cleo-" + comboBox1.Text + "-" + cleoDate + ".html";
+                String oFileName = "Cleo-Dif-" + comboBox1.Text + "-" + cleoDate + ".html";
 
 
                 System.IO.File.WriteAllText(Properties.Settings.Default.OutputLoc + oFileName, rosterHtml);
+                webBrowser1.Navigate(Properties.Settings.Default.OutputLoc + oFileName);
                 conn.Close();
             }
         }
